@@ -80,9 +80,9 @@ class NavbarOptions extends StatelessWidget {
               ),
               OptionButton(
                 icon: Icons.medical_services_rounded,
-                label: 'Medicaciones',
+                label: 'Notificaciones',
                 onPressed: () {
-                  print("Medicaciones");
+                  print("Notificaciones");
                   Navigator.pop(context);
                 },
               ),
