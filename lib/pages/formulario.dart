@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medidoc_doctor/pages/navBar.dart';
 
 class Formulario extends StatefulWidget {
   @override
@@ -8,7 +9,8 @@ class Formulario extends StatefulWidget {
 class _FormularioState extends State<Formulario> {
   final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
-  final TextEditingController _motherLastNameController = TextEditingController();
+  final TextEditingController _motherLastNameController =
+      TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _otherGenderController = TextEditingController();
 
@@ -42,8 +44,13 @@ class _FormularioState extends State<Formulario> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Formulario'),
+        title: Text(
+          'Formulario',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.deepPurpleAccent,
       ),
+      drawer: const NavbarOptions(),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: ListView(
@@ -87,7 +94,7 @@ class _FormularioState extends State<Formulario> {
                 _handleGenderChange(newValue, false);
               },
             ),
-            if (!_isFemale && !_isMale) 
+            if (!_isFemale && !_isMale)
               TextFormField(
                 controller: _otherGenderController,
                 decoration: InputDecoration(

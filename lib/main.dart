@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:medidoc_doctor/pages/asistente_page.dart';
 import 'package:medidoc_doctor/pages/Inicio.dart';
 import 'package:medidoc_doctor/pages/biometrico.dart';
+import 'package:medidoc_doctor/pages/perfil.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
 
       routes: {
         '/':(context)=> Inicio(),
-        '/asistente':(context) => AsistentePage(),
+        '/perfil':(context) => Perfil(),
         '/registro':(context) => BioPag(),
       },
     );
