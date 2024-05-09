@@ -12,7 +12,7 @@ class NavbarOptions extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: Container(
-        color: Colors.purple,
+        color: Color(0xFF02457A),
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,

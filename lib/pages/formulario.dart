@@ -48,7 +48,7 @@ class _FormularioState extends State<Formulario> {
           'Formulario',
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: Colors.deepPurpleAccent,
+        backgroundColor: Color(0xFF02457A),
       ),
       drawer: const NavbarOptions(),
       body: Padding(

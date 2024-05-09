@@ -14,7 +14,7 @@ class AsistentePage extends StatelessWidget {
           'Asistente Personal',
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: Colors.deepPurpleAccent,
+        backgroundColor: Color(0xFF02457A),
       ),
       drawer: const NavbarOptions(),
       body: Column(
@@ -26,7 +26,7 @@ class AsistentePage extends StatelessWidget {
               'Le damos la bienvenida Sr/a $nombre, me llamo Lia, soy su asistente personal',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Colors.deepPurpleAccent,
+                color: Color(0xFF02457A),
                 fontSize: 25.0,
                 fontWeight: FontWeight.bold,
               ),

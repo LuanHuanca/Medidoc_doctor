@@ -16,7 +16,7 @@ class MenuPrincipal extends StatelessWidget {
           'Menu',
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: Colors.deepPurpleAccent,
+        backgroundColor: Color(0xFF02457A),
       ),
       drawer: const NavbarOptions(),
       backgroundColor: Colors.white,

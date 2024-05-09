@@ -12,7 +12,7 @@ class Perfil extends StatelessWidget {
           'Perfil',
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: Colors.deepPurpleAccent,
+        backgroundColor: Color(0xFF02457A),
       ),
       drawer: const NavbarOptions(),
       body: ListView(
@@ -20,7 +20,7 @@ class Perfil extends StatelessWidget {
         children: <Widget>[
           const DrawerHeader(
             decoration: BoxDecoration(
-              color: Colors.deepPurpleAccent,
+              color: Color(0xFF02457A),
             ),
             child: Center(
               child: Column(
@@ -136,7 +136,7 @@ class OptionButton extends StatelessWidget {
       ),
       label: Text(label, style: const TextStyle(fontSize: 22)),
       style: ButtonStyle(
-        foregroundColor: MaterialStateProperty.all(Colors.deepPurpleAccent),
+        foregroundColor: MaterialStateProperty.all(Color(0xFF02457A)),
       ),
     );
   }

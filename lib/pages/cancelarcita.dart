@@ -5,8 +5,8 @@ class CancelarCita extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cancelar cita'),
-        backgroundColor: Colors.deepPurple,
+        title: Text('Cancelar cita',style: TextStyle(color: Colors.white),),
+        backgroundColor: Color(0xFF02457A),
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -25,7 +25,7 @@ class CancelarCita extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
-      color: Colors.purple[300],
+      color: Color(0xFF018ABE),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
