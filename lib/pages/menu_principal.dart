@@ -1,6 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:medidoc_doctor/pages/cancelarcita.dart';
 import 'package:medidoc_doctor/pages/navBar.dart';
+import 'package:medidoc_doctor/pages/historialmedico.dart';
+import 'package:medidoc_doctor/pages/vercitaprogramada.dart'; // Asegúrate de usar el path correcto
 
 class MenuPrincipal extends StatelessWidget {
   const MenuPrincipal({Key? key}) : super(key: key);
@@ -13,7 +16,7 @@ class MenuPrincipal extends StatelessWidget {
           'Menu',
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: Colors.deepPurpleAccent,
+        backgroundColor: Color(0xFF02457A),
       ),
       drawer: const NavbarOptions(),
       backgroundColor: Colors.white,
@@ -45,11 +48,29 @@ class MyCustomButtonGrid extends StatelessWidget {
     "Ficha Medica"
   ];
 
-  MyCustomButtonGrid({Key? key});
+  MyCustomButtonGrid({Key? key}) : super(key: key);
 
-  void Function() _getActionForItem(String item) {
+  void Function() _getActionForItem(BuildContext context, String item) {
     return () {
       print('Se seleccionó: $item');
+      if (item == "Historial médico") {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HistorialMedico()),
+        );
+      }
+      else if (item == "Ver cita Pogramada") {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => VerCitaProgramada()),
+        );
+      }
+      else if (item == "Cancelacion de cita") {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => CancelarCita()),
+        );
+      }
     };
   }
 
@@ -69,7 +90,7 @@ class MyCustomButtonGrid extends StatelessWidget {
         final imageUrl = 'https://source.unsplash.com/featured/?medicine,hospital&${random.nextInt(100)}';
 
         return GestureDetector(
-          onTap: _getActionForItem(options[index]),
+          onTap: _getActionForItem(context, options[index]),
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
