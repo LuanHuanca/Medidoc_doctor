@@ -1,8 +1,10 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:medidoc_doctor/colors.dart';
 import 'package:medidoc_doctor/pages/cancelarcita.dart';
 import 'package:medidoc_doctor/pages/navBar.dart';
 import 'package:medidoc_doctor/pages/historialmedico.dart';
+import 'package:medidoc_doctor/pages/solicitudCita.dart';
+import 'package:medidoc_doctor/pages/teleconsulta.dart';
 import 'package:medidoc_doctor/pages/vercitaprogramada.dart'; // Asegúrate de usar el path correcto
 
 class MenuPrincipal extends StatelessWidget {
@@ -36,6 +38,7 @@ class MenuPrincipal extends StatelessWidget {
 class MyCustomButtonGrid extends StatelessWidget {
   final List<String> options = [
     "Historial médico",
+    "Solicitud de cita",
     "Ver cita Pogramada",
     "Cancelacion de cita",
     "Consulta en casa",
@@ -58,17 +61,25 @@ class MyCustomButtonGrid extends StatelessWidget {
           context,
           MaterialPageRoute(builder: (context) => HistorialMedico()),
         );
-      }
-      else if (item == "Ver cita Pogramada") {
+      } else if (item == "Ver cita Pogramada") {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => VerCitaProgramada()),
         );
-      }
-      else if (item == "Cancelacion de cita") {
+      } else if (item == "Cancelacion de cita") {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => CancelarCita()),
+        );
+      } else if (item == "Teleconsulta") {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Teleconsulta()),
+        );
+      } else if (item == "Solicitud de cita") {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SolicitudCita()),
         );
       }
     };
@@ -80,32 +91,24 @@ class MyCustomButtonGrid extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
-        crossAxisSpacing: 20,
-        mainAxisSpacing: 20,
-        childAspectRatio: 0.7,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+        childAspectRatio: 0.8,
       ),
       itemCount: options.length,
       itemBuilder: (context, index) {
-        final random = Random();
-        final imageUrl = 'https://source.unsplash.com/featured/?medicine,hospital&${random.nextInt(100)}';
-
         return GestureDetector(
           onTap: _getActionForItem(context, options[index]),
           child: Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              image: DecorationImage(
-                image: NetworkImage(imageUrl),
-                fit: BoxFit.cover,
-              ),
-            ),
+                borderRadius: BorderRadius.circular(10), color: colorTerciario),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   options[index],
                   style: const TextStyle(
-                    color: Colors.white,
+                    color: Colors.black,
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,

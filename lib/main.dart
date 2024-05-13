@@ -18,11 +18,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-
       routes: {
-        '/':(context)=> Inicio(),
-        '/perfil':(context) => Perfil(),
-        '/registro':(context) => BioPag(),
+        '/': (context) => Inicio(),
+        '/perfil': (context) => Perfil(),
+        '/registro': (context) => BioPag(),
       },
     );
   }
