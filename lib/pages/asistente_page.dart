@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medidoc_doctor/pages/navBar.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AsistentePage extends StatelessWidget {
   final String nombre = 'Camila';
@@ -30,6 +31,35 @@ class AsistentePage extends StatelessWidget {
                 fontSize: 25.0,
                 fontWeight: FontWeight.bold,
               ),
+            ),
+          ),
+          SizedBox(height: 20.0),
+          ElevatedButton(
+            onPressed: () {
+              // Lógica para repetir el tutorial
+            },
+            child: Text('Repetir Tutorial'),
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.white, backgroundColor: Color(0xFF02457A),
+              padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 15.0),
+              textStyle: TextStyle(fontSize: 18.0),
+            ),
+          ),
+          SizedBox(height: 20.0),
+          ElevatedButton(
+            onPressed: () async {
+              const url = 'https://character.ai/chat/JG1FnD108airSy3MIy3PoUOdMhtKI9VB9agsdFWWBLc';
+              if (await canLaunch(url)) {
+                await launch(url);
+              } else {
+                throw 'Could not launch $url';
+              }
+            },
+            child: Text('Doctor IA'),
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.white, backgroundColor: Color(0xFF02457A),
+              padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 15.0),
+              textStyle: TextStyle(fontSize: 18.0),
             ),
           ),
           SizedBox(height: 20.0),
