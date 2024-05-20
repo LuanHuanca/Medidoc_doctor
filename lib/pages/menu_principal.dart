@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:medidoc_doctor/colors.dart';
 import 'package:medidoc_doctor/pages/cancelarcita.dart';
+import 'package:medidoc_doctor/pages/consulta_en_casa.dart';
 import 'package:medidoc_doctor/pages/navBar.dart';
 import 'package:medidoc_doctor/pages/historialmedico.dart';
+import 'package:medidoc_doctor/pages/receta_medica.dart';
 import 'package:medidoc_doctor/pages/solicitudCita.dart';
+import 'package:medidoc_doctor/pages/sos_screen.dart';
 import 'package:medidoc_doctor/pages/teleconsulta.dart';
 import 'package:medidoc_doctor/pages/vercitaprogramada.dart'; // Asegúrate de usar el path correcto
 
@@ -81,7 +84,24 @@ class MyCustomButtonGrid extends StatelessWidget {
           context,
           MaterialPageRoute(builder: (context) => SolicitudCita()),
         );
+      } else if (item == "Emergencia SOS") {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SOSSplashScreen()),
+        );
+      } else if (item == "Consulta en casa") {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ConsultaEnCasa()),
+        );
+      } else if (item == "Receta Medica") {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => RecetaMedica()),
+        );
       }
+      
+      
     };
   }
 
