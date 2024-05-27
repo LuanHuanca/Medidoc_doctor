@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hexagon/hexagon.dart';
 import 'package:medidoc_doctor/colors.dart';
 import 'package:medidoc_doctor/pages/cancelarcita.dart';
 import 'package:medidoc_doctor/pages/consulta_en_casa.dart';
@@ -26,12 +27,8 @@ class MenuPrincipal extends StatelessWidget {
       drawer: const NavbarOptions(),
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: MyCustomButtonGrid(),
-            ),
-          ],
+        child: Center(
+          child: MyCustomButtonGrid(),
         ),
       ),
     );
@@ -42,16 +39,15 @@ class MyCustomButtonGrid extends StatelessWidget {
   final List<String> options = [
     "Historial médico",
     "Solicitud de cita",
-    "Ver cita Pogramada",
-    "Cancelacion de cita",
+    "Ver cita Programada",
+    "Cancelación de cita",
     "Consulta en casa",
-    "Cuestionarios medicos",
+    "Cuestionarios médicos",
     "Teleconsulta",
     "Tutoriales de primeros auxilios",
     "Emergencia SOS",
-    "RPO",
-    "Receta Medica",
-    "Ficha Medica"
+    "Receta Médica",
+    "Ficha Médica"
   ];
 
   MyCustomButtonGrid({Key? key}) : super(key: key);
@@ -64,12 +60,12 @@ class MyCustomButtonGrid extends StatelessWidget {
           context,
           MaterialPageRoute(builder: (context) => HistorialMedico()),
         );
-      } else if (item == "Ver cita Pogramada") {
+      } else if (item == "Ver cita Programada") {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => VerCitaProgramada()),
         );
-      } else if (item == "Cancelacion de cita") {
+      } else if (item == "Cancelación de cita") {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => CancelarCita()),
@@ -94,50 +90,57 @@ class MyCustomButtonGrid extends StatelessWidget {
           context,
           MaterialPageRoute(builder: (context) => ConsultaEnCasa()),
         );
-      } else if (item == "Receta Medica") {
+      } else if (item == "Receta Médica") {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => RecetaMedica()),
         );
       }
-      
-      
+      // Agregar más opciones según sea necesario
     };
   }
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      padding: const EdgeInsets.all(10),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        childAspectRatio: 0.8,
-      ),
-      itemCount: options.length,
-      itemBuilder: (context, index) {
-        return GestureDetector(
-          onTap: _getActionForItem(context, options[index]),
-          child: Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10), color: colorTerciario),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
+    return HexagonOffsetGrid.oddPointy(
+      columns: 3, // Ajustar el número de columnas según sea necesario
+      rows: 4, // Ajustar el número de filas según sea necesario
+      buildTile: (col, row) {
+        int index = row * 3 + col;
+        if (index >= options.length) return HexagonWidgetBuilder();
+        return HexagonWidgetBuilder(
+          color: _getColorForIndex(col, row),
+          padding: 4.0,
+          elevation: 2.0,
+          child: GestureDetector(
+            onTap: _getActionForItem(context, options[index]),
+            child: Center(
+              child: Container(
+                padding: const EdgeInsets.all(16.0), // Aumentar el área de detección
+                child: Text(
                   options[index],
                   style: const TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
+                    fontSize: 18, // Aumentar el tamaño de la letra
                   ),
                   textAlign: TextAlign.center,
                 ),
-              ],
+              ),
             ),
           ),
         );
       },
     );
+  }
+
+  Color _getColorForIndex(int col, int row) {
+    List<Color> colors = [
+      Color(0xFF02457A),
+      Color(0xFF018ABE),
+      Color(0xFF97CADB),
+      Color(0xFFD6E8EE)
+    ];
+    return colors[(col + row) % colors.length];
   }
 }

@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:medidoc_doctor/pages/biometrico.dart';
+import 'package:medidoc_doctor/pages/menu_principal.dart';
 
 class Inicio extends StatefulWidget {
   @override
@@ -14,10 +14,9 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     controladorAnimacion = AnimationController(
-      duration: Duration(seconds: 10),
+      duration: Duration(seconds: 120),
       vsync: this,
     )..repeat();
-
   }
 
   @override
@@ -32,10 +31,10 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
     return Scaffold(
       body: GestureDetector(
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (_) => BioPag())); // Modifica esto por tu destino
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) => MenuPrincipal())); // Modifica esto por tu destino
         },
         child: Container(
-          color: Colors.blue[200],
+          color: Color(0xFF003459),
           child: Stack(
             children: [
               CapaOla(
@@ -43,7 +42,7 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
                 proporcionAltura: 0.1,
                 velocidad: 1.0,
                 desfase: pi,
-                color: Colors.blue[600]!.withOpacity(0.7),
+                color: Color(0xFF00171F).withOpacity(0.7),
                 inicioY: alturaPantalla * 0.3,
               ),
               CapaOla(
@@ -51,7 +50,7 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
                 proporcionAltura: 0.15,
                 velocidad: 1.1,
                 desfase: pi / 2,
-                color: Colors.indigoAccent[200]!.withOpacity(0.7),
+                color: Color(0xFF005F73).withOpacity(0.7),
                 inicioY: alturaPantalla * 0.1,
               ),
               CapaOla(
@@ -59,7 +58,7 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
                 proporcionAltura: 0.1,
                 velocidad: 1.0,
                 desfase: pi / 3,
-                color: Colors.blue[500]!.withOpacity(0.7),
+                color: Color(0xFF0A9396).withOpacity(0.7),
                 inicioY: alturaPantalla * 0.6,
               ),
               CapaOla(
@@ -67,7 +66,7 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
                 proporcionAltura: 0.1,
                 velocidad: 1.3,
                 desfase: pi / 3,
-                color: Colors.blue[100]!.withOpacity(0.7),
+                color: Color(0xFF94D2BD).withOpacity(0.7),
                 inicioY: alturaPantalla * 0.8,
               ),
               Center(
@@ -77,6 +76,7 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
+                    fontFamily: 'Roboto', // Fuente más seria
                   ),
                 ),
               ),
@@ -99,7 +99,7 @@ class CapaOla extends StatelessWidget {
   const CapaOla({
     Key? key,
     required this.animacion,
-    required this.proporcionAltura, 
+    required this.proporcionAltura,
     required this.velocidad,
     required this.desfase,
     required this.color,
