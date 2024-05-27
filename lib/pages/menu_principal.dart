@@ -3,6 +3,7 @@ import 'package:hexagon/hexagon.dart';
 import 'package:medidoc_doctor/colors.dart';
 import 'package:medidoc_doctor/pages/cancelarcita.dart';
 import 'package:medidoc_doctor/pages/consulta_en_casa.dart';
+import 'package:medidoc_doctor/pages/ficha_clinica.dart';
 import 'package:medidoc_doctor/pages/navBar.dart';
 import 'package:medidoc_doctor/pages/historialmedico.dart';
 import 'package:medidoc_doctor/pages/receta_medica.dart';
@@ -94,6 +95,11 @@ class MyCustomButtonGrid extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => RecetaMedica()),
+        );
+      } else if (item == "Ficha Médica") {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => FichaClinica()),
         );
       }
       // Agregar más opciones según sea necesario
