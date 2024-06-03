@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexagon/hexagon.dart';
 import 'package:medidoc_doctor/colors.dart';
+import 'package:medidoc_doctor/pages/alimentaciones.dart';
 import 'package:medidoc_doctor/pages/cancelarcita.dart';
 import 'package:medidoc_doctor/pages/consulta_en_casa.dart';
 import 'package:medidoc_doctor/pages/ficha_clinica.dart';
@@ -48,7 +49,8 @@ class MyCustomButtonGrid extends StatelessWidget {
     "Tutoriales de primeros auxilios",
     "Emergencia SOS",
     "Receta Médica",
-    "Ficha Médica"
+    "Ficha Médica",
+    "Alimentación"
   ];
 
   MyCustomButtonGrid({Key? key}) : super(key: key);
@@ -100,6 +102,11 @@ class MyCustomButtonGrid extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => FichaClinica()),
+        );
+      } else if (item == "Alimentación") {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const Alimentacion()),
         );
       }
       // Agregar más opciones según sea necesario

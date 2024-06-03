@@ -55,7 +55,6 @@ class VerCitaProgramada extends StatelessWidget {
                 ),
               ),
             ),
-            // Aquí puedes añadir más tarjetas si necesitas mostrar más citas
           ],
         ),
       ),
