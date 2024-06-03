@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'ingreso_hospital.dart';  // Asegúrate de tener la ruta correcta a tu archivo ingreso_hospital.dart
+import 'ingreso_hospital.dart';
+import 'navBar.dart'; // Asegúrate de tener la importación correcta de tu NavBar
 
 class FichaClinica extends StatelessWidget {
   @override
@@ -7,14 +8,18 @@ class FichaClinica extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Ficha clínica'),
-        leading: IconButton(
-          
-          icon: Icon(Icons.menu),
-          onPressed: () {
-            // Aquí puedes agregar la funcionalidad del menú
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: Icon(Icons.menu),
+              onPressed: () {
+                Scaffold.of(context).openDrawer(); // Abre el drawer al presionar el ícono del menú
+              },
+            );
           },
         ),
       ),
+      drawer: NavbarOptions(), // Aquí se añade el drawer
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -43,7 +48,7 @@ class FichaClinica extends StatelessWidget {
         }
       },
       child: Card(
-        color:Color(0xFF02457A),
+        color: Color(0xFF02457A),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Center(

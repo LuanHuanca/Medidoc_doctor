@@ -48,9 +48,9 @@ class NavbarOptions extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => const AsistentePage()));
                 },              ),
               _buildDrawerOption(
-                title: 'Salir',
+                title: 'Ajustes',
                 onTap: () {
-                  exit(0);
+                  
                 },
               ),
               const SizedBox(height: 8),

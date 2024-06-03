@@ -41,16 +41,14 @@ class MyCustomButtonGrid extends StatelessWidget {
   final List<String> options = [
     "Historial médico",
     "Solicitud de cita",
-    "Ver cita Programada",
+    "Ver citas Programadas",
     "Cancelación de cita",
     "Consulta en casa",
-    "Cuestionarios médicos",
     "Teleconsulta",
-    "Tutoriales de primeros auxilios",
-    "Emergencia SOS",
     "Receta Médica",
     "Ficha Médica",
-    "Alimentación"
+    "Alimentación",
+    "Emergencia SOS",
   ];
 
   MyCustomButtonGrid({Key? key}) : super(key: key);

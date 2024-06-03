@@ -14,7 +14,7 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     controladorAnimacion = AnimationController(
-      duration: Duration(seconds: 120),
+      duration: Duration(seconds: 60),
       vsync: this,
     )..repeat();
   }
