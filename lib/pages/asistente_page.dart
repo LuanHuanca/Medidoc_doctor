@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medidoc_doctor/pages/chatbot_screen.dart';
 import 'package:medidoc_doctor/pages/navBar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -55,6 +56,11 @@ class AsistentePage extends StatelessWidget {
                 throw 'Could not launch $url';
               }
             },
+            // onPressed:(){
+            //   Navigator.push(context,
+            //     MaterialPageRoute(builder: (context) => ChatBotScreen()),
+            //   );
+            // },
             child: Text('Doctor IA'),
             style: ElevatedButton.styleFrom(
               foregroundColor: Colors.white, backgroundColor: Color(0xFF02457A),
