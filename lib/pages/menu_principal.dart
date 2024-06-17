@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hexagon/hexagon.dart';
 import 'package:medidoc_doctor/pages/alimentaciones.dart';
 import 'package:medidoc_doctor/pages/cancelarcita.dart';
-import 'package:medidoc_doctor/pages/chatbot_screen.dart';
 import 'package:medidoc_doctor/pages/consulta_en_casa.dart';
 import 'package:medidoc_doctor/pages/ficha_clinica.dart';
 import 'package:medidoc_doctor/pages/navBar.dart';
