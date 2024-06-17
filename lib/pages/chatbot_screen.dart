@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:intl/intl.dart';
+
 
 class ChatBotScreen extends StatefulWidget {
   const ChatBotScreen({super.key});
@@ -11,7 +13,7 @@ class ChatBotScreen extends StatefulWidget {
 
 class _ChatBotScreenState extends State<ChatBotScreen> {
   final TextEditingController _userMessage = TextEditingController();
-  static const apiKey = "AIzaSyCBtdltu5Ys3NOKydMLtQdTAkmxgbTV6_c";
+  static String apiKey = dotenv.env['INSERT_YOUR_APP_GEMINI_API_KEY']?? 'VALOR_PREDETERMINADO';
   final model = GenerativeModel(model: 'gemini-pro', apiKey: apiKey);
   final List<Message> _messages = [];
   bool _isLoading = false;
@@ -117,7 +119,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
                       const CircleBorder(),
                     ),
                   ),
-                  onPressed: sendMessage,
+                  onPressed: apiKey == 'VALOR_PREDETERMINADO' ? null : sendMessage,
                   icon: const Icon(Icons.send),
                 )
               ],

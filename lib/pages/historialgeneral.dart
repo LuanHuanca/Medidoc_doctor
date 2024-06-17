@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:medidoc_doctor/colors.dart';
 import 'package:medidoc_doctor/pages/carpetaspaciente.dart';
 
 class HistorialGeneral extends StatefulWidget {
@@ -132,7 +131,7 @@ class _HistorialGeneralState extends State<HistorialGeneral> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Historial General", style: TextStyle(color: Colors.white),),
-        backgroundColor: colorPrimario,
+        backgroundColor: const Color(0xFF02457A),
       ),
       body: Padding(
         padding: const EdgeInsets.all(9.0),
@@ -151,7 +150,7 @@ class _HistorialGeneralState extends State<HistorialGeneral> {
                 itemCount: _foundUsers.length,
                 itemBuilder: (context, index) => Card(
                   key: ValueKey(_foundUsers[index]['id']),
-                  color: colorTerciario,
+                  color: const Color(0xFF97CADB),
                   elevation: 2,
                   margin: const EdgeInsets.symmetric(vertical: 10),
                   child: ListTile(
@@ -180,7 +179,7 @@ class _HistorialGeneralState extends State<HistorialGeneral> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddUserDialog,
-        backgroundColor: colorSecundario,
+        backgroundColor: const Color(0xFF018ABE),
         child: const Icon(Icons.add),
       ),
     );
