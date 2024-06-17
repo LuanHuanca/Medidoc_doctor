@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:medidoc_doctor/colors.dart';
 import 'package:intl/intl.dart';
 import 'package:medidoc_doctor/pages/menu_principal.dart';
 
@@ -30,7 +29,7 @@ class _formularioSolicitudCitaState extends State<formularioSolicitudCita> {
           'Formulario de cita',
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: colorPrimario,
+        backgroundColor: const Color(0xFF02457A),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -94,7 +93,7 @@ class _formularioSolicitudCitaState extends State<formularioSolicitudCita> {
               onPressed: () => _confirmCita(context),
               child: Text('Agendar Cita'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: colorSecundario,
+                backgroundColor: const Color(0xFF018ABE),
               ),
             ),
           ],

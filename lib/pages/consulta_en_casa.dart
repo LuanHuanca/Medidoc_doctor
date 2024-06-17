@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:medidoc_doctor/colors.dart';
 import 'chat_screen.dart';
 
 class ConsultaEnCasa extends StatefulWidget {
@@ -124,7 +123,7 @@ class _ConsultaEnCasaState extends State<ConsultaEnCasa> {
       appBar: AppBar(
         title: const Text("Consulta en Casa",
             style: TextStyle(color: Colors.white)),
-        backgroundColor: colorPrimario,
+        backgroundColor: const Color(0xFF02457A),
       ),
       body: Padding(
         padding: const EdgeInsets.all(9.0),
@@ -143,7 +142,7 @@ class _ConsultaEnCasaState extends State<ConsultaEnCasa> {
                 itemCount: _foundUsers.length,
                 itemBuilder: (context, index) => Card(
                   key: ValueKey(_foundUsers[index]['id']),
-                  color: colorTerciario,
+                  color: const Color(0xFF97CADB),
                   elevation: 2,
                   margin: const EdgeInsets.symmetric(vertical: 10),
                   child: ListTile(
@@ -174,7 +173,7 @@ class _ConsultaEnCasaState extends State<ConsultaEnCasa> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddUserDialog,
-        backgroundColor: colorSecundario,
+        backgroundColor: const Color(0xFF018ABE),
         child: const Icon(Icons.add),
       ),
     );

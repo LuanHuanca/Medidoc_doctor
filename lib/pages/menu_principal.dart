@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hexagon/hexagon.dart';
-import 'package:medidoc_doctor/colors.dart';
 import 'package:medidoc_doctor/pages/alimentaciones.dart';
 import 'package:medidoc_doctor/pages/cancelarcita.dart';
 import 'package:medidoc_doctor/pages/consulta_en_casa.dart';
@@ -11,8 +10,7 @@ import 'package:medidoc_doctor/pages/receta_medica.dart';
 import 'package:medidoc_doctor/pages/solicitudCita.dart';
 import 'package:medidoc_doctor/pages/sos_screen.dart';
 import 'package:medidoc_doctor/pages/teleconsulta.dart';
-import 'package:medidoc_doctor/pages/vercitaprogramada.dart'; // Asegúrate de usar el path correcto
-
+import 'package:medidoc_doctor/pages/vercitaprogramada.dart';
 class MenuPrincipal extends StatelessWidget {
   const MenuPrincipal({Key? key}) : super(key: key);
 
@@ -41,7 +39,7 @@ class MyCustomButtonGrid extends StatelessWidget {
   final List<String> options = [
     "Historial médico",
     "Solicitud de cita",
-    "Ver citas Programadas",
+    "Ver cita Programada",
     "Cancelación de cita",
     "Consulta en casa",
     "Teleconsulta",

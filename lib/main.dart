@@ -3,7 +3,7 @@ import 'package:medidoc_doctor/pages/Inicio.dart';
 import 'package:medidoc_doctor/pages/biometrico.dart';
 import 'package:medidoc_doctor/pages/perfil.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
 }
 
