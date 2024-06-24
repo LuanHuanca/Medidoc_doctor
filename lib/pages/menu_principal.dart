@@ -11,6 +11,7 @@ import 'package:medidoc_doctor/pages/solicitudCita.dart';
 import 'package:medidoc_doctor/pages/sos_screen.dart';
 import 'package:medidoc_doctor/pages/teleconsulta.dart';
 import 'package:medidoc_doctor/pages/vercitaprogramada.dart';
+
 class MenuPrincipal extends StatelessWidget {
   const MenuPrincipal({Key? key}) : super(key: key);
 
@@ -36,17 +37,23 @@ class MenuPrincipal extends StatelessWidget {
 }
 
 class MyCustomButtonGrid extends StatelessWidget {
-  final List<String> options = [
-    "Historial médico",
-    "Solicitud de cita",
-    "Ver cita Programada",
-    "Cancelación de cita",
-    "Consulta en casa",
-    "Teleconsulta",
-    "Receta Médica",
-    "Ficha Médica",
-    "Alimentación",
-    "Emergencia SOS",
+  final List<Map<String, dynamic>> options = [
+    {"label": "Historial médico", "image": 'assets/icons/historial_medico.png'},
+    {
+      "label": "Solicitud de cita",
+      "image": 'assets/icons/cita_programable.png'
+    },
+    {
+      "label": "Ver cita Programada",
+      "image": 'assets/icons/ver_cita_programable.png'
+    },
+    {"label": "Cancelación de cita", "image": 'assets/icons/cancelar_cita.png'},
+    {"label": "Consulta en casa", "image": 'assets/icons/consulta_en_casa.png'},
+    {"label": "Teleconsulta", "image": 'assets/icons/teleconsulta.png'},
+    {"label": "Receta Médica", "image": 'assets/icons/receta_medica.png'},
+    {"label": "Ficha Médica", "image": 'assets/icons/ficha_clinica.png'},
+    {"label": "Alimentación", "image": 'assets/icons/alimentacion.png'},
+    {"label": "Emergencia SOS", "image": 'assets/icons/emergencia_sos.png'},
   ];
 
   MyCustomButtonGrid({Key? key}) : super(key: key);
@@ -122,18 +129,30 @@ class MyCustomButtonGrid extends StatelessWidget {
           padding: 4.0,
           elevation: 2.0,
           child: GestureDetector(
-            onTap: _getActionForItem(context, options[index]),
+            onTap: _getActionForItem(context, options[index]["label"]),
             child: Center(
               child: Container(
-                padding: const EdgeInsets.all(16.0), // Aumentar el área de detección
-                child: Text(
-                  options[index],
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18, // Aumentar el tamaño de la letra
-                  ),
-                  textAlign: TextAlign.center,
+                padding:
+                    const EdgeInsets.all(8.0), // Aumentar el área de detección
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset(
+                      options[index]["image"],
+                      width: 50,
+                      height: 50,
+                    ),
+                    SizedBox(height: 8.0),
+                    Text(
+                      options[index]["label"],
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14, // Aumentar el tamaño de la letra
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
               ),
             ),
