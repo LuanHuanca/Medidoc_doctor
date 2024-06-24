@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medidoc_doctor/colors.dart';
 
 class CarpetasPaciente extends StatefulWidget {
   final Map<String, dynamic> user;
@@ -64,7 +65,7 @@ class _CarpetasPacienteState extends State<CarpetasPaciente> {
           'Archivos del paciente',
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: const Color(0xFF02457A),
+        backgroundColor: colorPrimario,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,10 +94,10 @@ class _CarpetasPacienteState extends State<CarpetasPaciente> {
                     alignment: WrapAlignment.center,
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.snippet_folder_rounded,
                         size: 64.0, // Tamaño del icono
-                        color: Color(0xFF018ABE),
+                        color: colorSecundario,
                       ),
                       const SizedBox(height: 8.0),
                       Text(
@@ -116,7 +117,7 @@ class _CarpetasPacienteState extends State<CarpetasPaciente> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddFolderDialog,
-        backgroundColor: const Color(0xFF018ABE),
+        backgroundColor: colorSecundario,
         child: const Icon(Icons.add),
       ),
     );

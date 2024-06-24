@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medidoc_doctor/colors.dart';
 import 'package:medidoc_doctor/pages/alimentacion_paciente_especifico.dart';
 
 class AlimentacionPaciente extends StatefulWidget {
@@ -132,7 +133,7 @@ void _navigateToDetail(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Alimentaciones", style: TextStyle(color: Colors.white),),
-        backgroundColor: const Color(0xFF02457A),
+        backgroundColor: colorPrimario,
       ),
       body: Padding(
         padding: const EdgeInsets.all(9.0),
@@ -151,7 +152,7 @@ void _navigateToDetail(BuildContext context) {
                 itemCount: _foundUsers.length,
                 itemBuilder: (context, index) => Card(
                   key: ValueKey(_foundUsers[index]['id']),
-                  color: const Color(0xFF97CADB),
+                  color: colorTerciario,
                   elevation: 2,
                   margin: const EdgeInsets.symmetric(vertical: 10),
                   child: ListTile(
@@ -180,7 +181,7 @@ void _navigateToDetail(BuildContext context) {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddUserDialog,
-        backgroundColor: const Color(0xFF018ABE),
+        backgroundColor: colorSecundario,
         child: const Icon(Icons.add),
       ),
     );

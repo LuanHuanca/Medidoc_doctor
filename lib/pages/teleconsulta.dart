@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medidoc_doctor/colors.dart';
 import 'package:medidoc_doctor/pages/formsolicitudcita.dart';
 import 'package:medidoc_doctor/pages/navBar.dart';
 
@@ -48,7 +49,7 @@ class _TeleconsultaState extends State<Teleconsulta> {
           'Teleconsulta',
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: const Color(0xFF02457A),
+        backgroundColor: colorPrimario,
       ),
       drawer: const NavbarOptions(),
       body: Column(
@@ -91,7 +92,7 @@ class _TeleconsultaState extends State<Teleconsulta> {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF97CADB),
+                      backgroundColor: colorTerciario,
                       padding: EdgeInsets.zero,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),

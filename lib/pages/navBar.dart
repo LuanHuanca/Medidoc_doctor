@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:medidoc_doctor/pages/ajustes.dart';
 import 'package:medidoc_doctor/pages/asistente_page.dart';
 import 'package:medidoc_doctor/pages/formulario.dart';
 import 'package:medidoc_doctor/pages/menu_principal.dart';
@@ -50,7 +51,8 @@ class NavbarOptions extends StatelessWidget {
               _buildDrawerOption(
                 title: 'Ajustes',
                 onTap: () {
-                  
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => Ajustes()));
                 },
               ),
               const SizedBox(height: 8),
