@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medidoc_doctor/pages/chatbot_screen.dart';
+//import 'package:medidoc_doctor/pages/chatbot_screen.dart';
 import 'package:medidoc_doctor/pages/navBar.dart';
 import 'package:url_launcher/url_launcher.dart';
 

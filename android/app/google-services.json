@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "350463720958",
+    "firebase_url": "https://meddidoc-default-rtdb.firebaseio.com",
+    "project_id": "meddidoc",
+    "storage_bucket": "meddidoc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:350463720958:android:93b3813bf0d487adc7d4af",
+        "android_client_info": {
+          "package_name": "com.example.medidoc_doctor"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIZ8NbIK0zKZvF6-TUvdbSLhHeCAkYpsU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

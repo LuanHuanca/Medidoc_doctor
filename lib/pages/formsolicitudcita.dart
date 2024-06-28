@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:medidoc_doctor/pages/menu_principal.dart';
@@ -129,9 +130,9 @@ class _formularioSolicitudCitaState extends State<formularioSolicitudCita> {
     }
   }
 
-  void _confirmCita(BuildContext context) {
+  void _confirmCita(BuildContext context) async {
     if (_validateForm()) {
-      showDialog(
+      bool confirm = await showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
@@ -141,17 +142,13 @@ class _formularioSolicitudCitaState extends State<formularioSolicitudCita> {
             actions: <Widget>[
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(false);
                 },
                 child: const Text('No'),
               ),
               TextButton(
                 onPressed: () {
-                  print('Cita agendada');
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MenuPrincipal()),
-                  );
+                  Navigator.of(context).pop(true);
                 },
                 child: const Text('Sí'),
               ),
@@ -159,6 +156,10 @@ class _formularioSolicitudCitaState extends State<formularioSolicitudCita> {
           );
         },
       );
+
+      if (confirm) {
+        _saveCitaToFirestore();
+      }
     } else {
       showDialog(
         context: context,
@@ -186,5 +187,45 @@ class _formularioSolicitudCitaState extends State<formularioSolicitudCita> {
         _horaController.text.isNotEmpty &&
         _pacienteController.text.isNotEmpty &&
         _direccionController.text.isNotEmpty;
+  }
+
+  Future<void> _saveCitaToFirestore() async {
+    final cita = {
+      'especialidad': widget.especialidad,
+      'fecha': _fechaController.text,
+      'hora': _horaController.text,
+      'paciente': _pacienteController.text,
+      'medico': medico,
+      'direccion': _direccionController.text,
+    };
+
+    try {
+      await FirebaseFirestore.instance.collection('SolicitudCita').add(cita);
+      print('Cita agendada');
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MenuPrincipal()),
+      );
+    } catch (e) {
+      print('Error al agendar cita: $e');
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Error'),
+            content: const Text(
+                'Hubo un problema al agendar la cita. Por favor, inténtalo de nuevo.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Aceptar'),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 }
