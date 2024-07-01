@@ -164,10 +164,10 @@ class MyCustomButtonGrid extends StatelessWidget {
 
   Color _getColorForIndex(int col, int row) {
     List<Color> colors = [
-      Color(0xFF02457A),
       Color(0xFF018ABE),
       Color(0xFF97CADB),
-      Color(0xFFD6E8EE)
+      Color(0xFFD6E8EE),
+      Color(0xFFB0E0E6)
     ];
     return colors[(col + row) % colors.length];
   }
