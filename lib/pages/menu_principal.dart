@@ -139,16 +139,15 @@ class MyCustomButtonGrid extends StatelessWidget {
                   children: [
                     Image.asset(
                       options[index]["image"],
-                      width: 50,
-                      height: 50,
+                      width: 40,
+                      height: 40,
                     ),
-                    SizedBox(height: 8.0),
                     Text(
                       options[index]["label"],
                       style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
-                        fontSize: 14, // Aumentar el tamaño de la letra
+                        fontSize: 11,
                       ),
                       textAlign: TextAlign.center,
                     ),
