@@ -38,22 +38,22 @@ class MenuPrincipal extends StatelessWidget {
 
 class MyCustomButtonGrid extends StatelessWidget {
   final List<Map<String, dynamic>> options = [
-    {"label": "Historial médico", "image": 'assets/icons/historial_medico.png'},
+    {"label": "Historial\n médico", "image": 'assets/icons/historial_medico.png'},
     {
-      "label": "Solicitud de cita",
+      "label": "Solicitud de\n cita",
       "image": 'assets/icons/cita_programable.png'
     },
     {
-      "label": "Ver cita Programada",
+      "label": "Ver citas",
       "image": 'assets/icons/ver_cita_programable.png'
     },
-    {"label": "Cancelación de cita", "image": 'assets/icons/cancelar_cita.png'},
-    {"label": "Consulta en casa", "image": 'assets/icons/consulta_en_casa.png'},
+    {"label": "Cancelar\n citas", "image": 'assets/icons/cancelar_cita.png'},
+    {"label": "Consulta en\n casa", "image": 'assets/icons/consulta_en_casa.png'},
     {"label": "Teleconsulta", "image": 'assets/icons/teleconsulta.png'},
     {"label": "Receta Médica", "image": 'assets/icons/receta_medica.png'},
     {"label": "Ficha Médica", "image": 'assets/icons/ficha_clinica.png'},
     {"label": "Alimentación", "image": 'assets/icons/alimentacion.png'},
-    {"label": "Emergencia SOS", "image": 'assets/icons/emergencia_sos.png'},
+    {"label": "Emergencia\n SOS", "image": 'assets/icons/emergencia_sos.png'},
   ];
 
   MyCustomButtonGrid({Key? key}) : super(key: key);
@@ -61,17 +61,17 @@ class MyCustomButtonGrid extends StatelessWidget {
   void Function() _getActionForItem(BuildContext context, String item) {
     return () {
       print('Se seleccionó: $item');
-      if (item == "Historial médico") {
+      if (item == "Historial\n médico") {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => HistorialMedico()),
         );
-      } else if (item == "Ver cita Programada") {
+      } else if (item == "Ver citas") {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => VerCitaProgramada()),
         );
-      } else if (item == "Cancelación de cita") {
+      } else if (item == "Cancelar\n citas") {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => CancelarCita()),
@@ -81,17 +81,17 @@ class MyCustomButtonGrid extends StatelessWidget {
           context,
           MaterialPageRoute(builder: (context) => Teleconsulta()),
         );
-      } else if (item == "Solicitud de cita") {
+      } else if (item == "Solicitud de\n cita") {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => SolicitudCita()),
         );
-      } else if (item == "Emergencia SOS") {
+      } else if (item == "Emergencia\n SOS") {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => SOSSplashScreen()),
         );
-      } else if (item == "Consulta en casa") {
+      } else if (item == "Consulta en\n casa") {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => ConsultaEnCasa()),
@@ -112,48 +112,58 @@ class MyCustomButtonGrid extends StatelessWidget {
           MaterialPageRoute(builder: (context) => const Alimentacion()),
         );
       }
-      // Agregar más opciones según sea necesario
     };
   }
 
   @override
   Widget build(BuildContext context) {
-    return HexagonOffsetGrid.oddPointy(
-      columns: 3, // Ajustar el número de columnas según sea necesario
-      rows: 4, // Ajustar el número de filas según sea necesario
-      buildTile: (col, row) {
-        int index = row * 3 + col;
-        if (index >= options.length) return HexagonWidgetBuilder();
-        return HexagonWidgetBuilder(
-          color: _getColorForIndex(col, row),
-          padding: 4.0,
-          elevation: 2.0,
-          child: GestureDetector(
-            onTap: _getActionForItem(context, options[index]["label"]),
-            child: Center(
-              child: Container(
-                padding:
-                    const EdgeInsets.all(8.0), // Aumentar el área de detección
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset(
-                      options[index]["image"],
-                      width: 40,
-                      height: 40,
-                    ),
-                    Text(
-                      options[index]["label"],
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 11,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        double hexagonSize = constraints.maxWidth / 3;
+
+        return Center(
+          child: SizedBox(
+            width: hexagonSize * 3,
+            height: hexagonSize * 4, // Ajuste para el contenedor centrado verticalmente
+            child: HexagonOffsetGrid.oddPointy(
+              columns: 3,
+              rows: 4,
+              buildTile: (col, row) {
+                int index = row * 3 + col;
+                if (index >= options.length) return HexagonWidgetBuilder();
+                return HexagonWidgetBuilder(
+                  color: _getColorForIndex(col, row),
+                  padding: 4.0,
+                  elevation: 2.0,
+                  cornerRadius: 8.0,
+                  child: GestureDetector(
+                    onTap: _getActionForItem(context, options[index]["label"]),
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Image.asset(
+                            options[index]["image"],
+                            width: hexagonSize * 0.4,
+                            height: hexagonSize * 0.4,
+                          ),
+                          SizedBox(height: 1.0),
+                          Text(
+                            options[index]["label"],
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 9,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
                       ),
-                      textAlign: TextAlign.center,
                     ),
-                  ],
-                ),
-              ),
+                  ),
+                );
+              },
             ),
           ),
         );
