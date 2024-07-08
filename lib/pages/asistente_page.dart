@@ -56,11 +56,6 @@ class AsistentePage extends StatelessWidget {
                 throw 'Could not launch $url';
               }
             },
-            // onPressed:(){
-            //   Navigator.push(context,
-            //     MaterialPageRoute(builder: (context) => ChatBotScreen()),
-            //   );
-            // },
             child: Text('Doctor IA'),
             style: ElevatedButton.styleFrom(
               foregroundColor: Colors.white, backgroundColor: Color(0xFF02457A),
