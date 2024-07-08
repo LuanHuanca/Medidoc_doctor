@@ -19,7 +19,7 @@ class _formularioSolicitudCitaState extends State<formularioSolicitudCita> {
   final TextEditingController _horaController = TextEditingController();
   final TextEditingController _pacienteController = TextEditingController();
   final TextEditingController _direccionController = TextEditingController();
-  final medico = 'Dr. Juan Perez';
+  final String medico = 'Médico 1'; // Valor del campo doctor_id_doctor
   DateTime? _selectedDate;
 
   @override
@@ -191,12 +191,14 @@ class _formularioSolicitudCitaState extends State<formularioSolicitudCita> {
 
   Future<void> _saveCitaToFirestore() async {
     final cita = {
-      'especialidad': widget.especialidad,
-      'fecha': _fechaController.text,
-      'hora': _horaController.text,
-      'paciente': _pacienteController.text,
-      'medico': medico,
       'direccion': _direccionController.text,
+      'doctor_id_doctor': medico,
+      'estado': 'pendiente',
+      'fecha': DateTime.now(),
+      'horario': _horaController.text,
+      'id_cita': 7, // Ajusta este valor según corresponda
+      'id_paciente': _pacienteController.text,
+      'tipocita': widget.especialidad,
     };
 
     try {
