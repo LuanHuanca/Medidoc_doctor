@@ -1,6 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:medidoc_doctor/pages/ajustes.dart';
 import 'package:medidoc_doctor/pages/menu_principal.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'biometrico.dart';  // Importa la página biométrica si es necesaria
 
 class Inicio extends StatefulWidget {
   @override
@@ -9,6 +12,8 @@ class Inicio extends StatefulWidget {
 
 class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
   late AnimationController controladorAnimacion;
+  String _selectedMethod = 'PIN';
+  bool _isFirstTime = true;
 
   @override
   void initState() {
@@ -17,12 +22,33 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
       duration: Duration(seconds: 60),
       vsync: this,
     )..repeat();
+    _check();
   }
-
   @override
   void dispose() {
     controladorAnimacion.dispose();
     super.dispose();
+  }
+  _check() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isFirstTime = prefs.getBool('isFirstTime') ?? true;
+    String? selectedMethod = prefs.getString('selectedMethod');
+    if (selectedMethod == null) {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => MenuPrincipal()));
+    } else {
+      _loadSelectedMethod();
+    }
+  }
+
+  _loadSelectedMethod() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _selectedMethod = (prefs.getString('selectedMethod') ?? 'PIN');
+    });
+  }
+
+  void _navigateToAuthMethod() {
+      Navigator.of(context).push(MaterialPageRoute(builder: (_) => BioPag()));
   }
 
   @override
@@ -30,9 +56,7 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
     final alturaPantalla = MediaQuery.of(context).size.height;
     return Scaffold(
       body: GestureDetector(
-        onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (_) => MenuPrincipal())); // Modifica esto por tu destino
-        },
+        onTap: _navigateToAuthMethod,
         child: Container(
           color: Color(0xFF003459),
           child: Stack(

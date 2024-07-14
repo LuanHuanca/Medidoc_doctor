@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medidoc_doctor/pages/navBar.dart';
+import 'package:pattern_lock/pattern_lock.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Ajustes extends StatefulWidget {
@@ -8,24 +8,60 @@ class Ajustes extends StatefulWidget {
 }
 
 class _AjustesState extends State<Ajustes> {
-  String _selectedMethod = 'PIN';
+  String _selectedMethod = 'Sin Contraseñas';
+  TextEditingController _pinController = TextEditingController();
+  String _pattern = '';
 
   @override
   void initState() {
     super.initState();
+    _clearPin();  // Limpiar el PIN al iniciar la aplicación
     _loadSelectedMethod();
+  }
+
+  _clearPin() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('pin');
+    _pinController.clear();
   }
 
   _loadSelectedMethod() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      _selectedMethod = (prefs.getString('selectedMethod') ?? 'PIN');
+      _selectedMethod = (prefs.getString('selectedMethod') ?? 'Sin Contraseñas');
+      _pattern = prefs.getString('pattern') ?? '';
     });
   }
 
   _saveSelectedMethod(String method) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('selectedMethod', method);
+  }
+
+  _savePin(String pin) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('pin', pin);
+  }
+
+  _savePattern(String pattern) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('pattern', pattern);
+  }
+
+  void _setPattern(BuildContext context) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SetPattern(),
+      ),
+    );
+    if (result is List<int>) {
+      final patternString = result.join(',');
+      _savePattern(patternString);
+      setState(() {
+        _pattern = patternString;
+      });
+    }
   }
 
   @override
@@ -38,7 +74,7 @@ class _AjustesState extends State<Ajustes> {
         ),
         backgroundColor: Color(0xFF02457A),
       ),
-      drawer: const NavbarOptions(),
+      drawer: const Drawer(),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: ListView(
@@ -46,6 +82,17 @@ class _AjustesState extends State<Ajustes> {
             ListTile(
               title: Text('Método de ingreso'),
               subtitle: Text('Selecciona tu método de ingreso preferido'),
+            ),
+            RadioListTile<String>(
+              title: Text('Sin Contraseñas'),
+              value: 'Sin Contraseñas',
+              groupValue: _selectedMethod,
+              onChanged: (value) {
+                setState(() {
+                  _selectedMethod = value!;
+                  _saveSelectedMethod(value);
+                });
+              },
             ),
             RadioListTile<String>(
               title: Text('PIN'),
@@ -58,6 +105,24 @@ class _AjustesState extends State<Ajustes> {
                 });
               },
             ),
+            if (_selectedMethod == 'PIN')
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                child: TextField(
+                  controller: _pinController,
+                  keyboardType: TextInputType.number,
+                  maxLength: 4,
+                  decoration: InputDecoration(
+                    labelText: 'Ingrese su PIN',
+                    border: OutlineInputBorder(),
+                  ),
+                  onChanged: (value) {
+                    if (value.length == 4) {
+                      _savePin(value);
+                    }
+                  },
+                ),
+              ),
             RadioListTile<String>(
               title: Text('Huella dactilar'),
               value: 'Huella',
@@ -78,9 +143,30 @@ class _AjustesState extends State<Ajustes> {
                   _selectedMethod = value!;
                   _saveSelectedMethod(value);
                 });
+                _setPattern(context);
               },
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class SetPattern extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Establecer Patrón')),
+      body: Center(
+        child: PatternLock(
+          selectedColor: Colors.blue,
+          pointRadius: 8,
+          showInput: true,
+          dimension: 3,
+          onInputComplete: (List<int> input) {
+            Navigator.of(context).pop(input);
+          },
         ),
       ),
     );
