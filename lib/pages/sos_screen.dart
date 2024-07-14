@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'navBar.dart'; // Asegúrate de tener la importación correcta de tu NavBar
+import 'navBar.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -13,31 +13,42 @@ class SOSSplashScreen extends StatefulWidget {
 
 class _SOSSplashScreenState extends State<SOSSplashScreen> {
   Future<Position> _determinePosition() async {
+    bool serviceEnabled;
     LocationPermission permission;
+    
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.deniedForever) {
         return Future.error(
-            "Permisos de localización denegados permanentemente");
-      } else if (permission == LocationPermission.denied) {
-        return Future.error("Permisos de localización denegados");
+            'Location permissions are permanently denied, we cannot request permissions.');
+      } 
+
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
       }
     }
+
     return await Geolocator.getCurrentPosition();
   }
 
-Future<void> openInGoogleMaps() async {
+  Future<void> openInGoogleMaps() async {
     try {
       Position position = await _determinePosition();
       double latitude = position.latitude;
       double longitude = position.longitude;
       String googleMapsUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+
+      Uri uri = Uri.parse(googleMapsUrl);
       
-      bool canLaunchUrl = await canLaunch(googleMapsUrl);
-      if (canLaunchUrl) {
-        await launch(googleMapsUrl);
-      } else {
+      try {
+        await launchUrl(uri, mode: LaunchMode.externalNonBrowserApplication);
+      } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Could not open the map. Please ensure you have a web browser installed.')),
         );
@@ -51,18 +62,49 @@ Future<void> openInGoogleMaps() async {
 
   void _sendSOS(BuildContext context) async {
     try {
+      Position position = await _determinePosition();
       await FirebaseFirestore.instance.collection('SOS').add({
         'sos_signal': 1,
         'timestamp': FieldValue.serverTimestamp(),
+        'latitude': position.latitude,
+        'longitude': position.longitude,
       });
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('SOS enviado con éxito'),
-      ));
+      _showSuccessDialog(context);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Error al enviar SOS: $e'),
       ));
     }
+  }
+
+  void _showSuccessDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          title: Center(child: Text('Éxito')),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.check_circle, color: Colors.green, size: 50),
+              SizedBox(height: 20),
+              Text('SOS enviado con éxito'),
+            ],
+          ),
+          actions: [
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('Cerrar'),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -102,7 +144,7 @@ Future<void> openInGoogleMaps() async {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () => openInGoogleMaps(),
+                onPressed: () => _sendSOS(context),
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.red,
                   backgroundColor: Colors.white,
