@@ -41,6 +41,7 @@ dependencies:
   intl: ^0.19.0
   firebase_core: ^3.1.1
   cloud_firestore: ^5.0.2
+  geolocator: ^8.0.0
   pattern_lock: ^2.0.0
   # file_picker: ^4.0.0
 
