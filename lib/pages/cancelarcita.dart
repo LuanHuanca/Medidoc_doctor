@@ -1,26 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class CancelarCita extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cancelar cita',style: TextStyle(color: Colors.white),),
+        title: Text('Cancelar cita', style: TextStyle(color: Colors.white)),
         backgroundColor: Color(0xFF02457A),
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
-        child: ListView(
-          children: <Widget>[
-            citaCard(context),
-            // Puedes añadir más tarjetas si tienes múltiples citas
-          ],
+        child: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance.collection('SolicitudCita').snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return CircularProgressIndicator();
+            }
+            if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+              return Text('No hay citas disponibles');
+            }
+
+            var citaDocs = snapshot.data!.docs;
+
+            return ListView.builder(
+              itemCount: citaDocs.length,
+              itemBuilder: (context, index) {
+                var citaData = citaDocs[index].data() as Map<String, dynamic>;
+                var citaId = citaDocs[index].id;
+
+                return citaCard(context, citaData, citaId);
+              },
+            );
+          },
         ),
       ),
     );
   }
 
-  Widget citaCard(BuildContext context) {
+  Widget citaCard(BuildContext context, Map<String, dynamic> citaData, String citaId) {
+    Timestamp fechaTimestamp = citaData['fecha'];
+    DateTime fechaDateTime = fechaTimestamp.toDate();
+    String fechaFormatted = DateFormat('dd/MM/yyyy').format(fechaDateTime);
+
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
@@ -32,38 +55,38 @@ class CancelarCita extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              'Fecha: 23/07/2023',
+              'Fecha: $fechaFormatted',
               style: TextStyle(fontSize: 16, color: Colors.white),
             ),
             SizedBox(height: 8),
             Text(
-              'Hora: 09:30 AM',
+              'Hora: ${citaData['horario']}',
               style: TextStyle(fontSize: 16, color: Colors.white),
             ),
             SizedBox(height: 8),
             Text(
-              'Paciente: Eduardo Santana',
+              'Paciente: ${citaData['paciente_id_paciente']}',
               style: TextStyle(fontSize: 16, color: Colors.white),
             ),
             SizedBox(height: 8),
             Text(
-              'Especialidad: Oftalmología',
+              'Especialidad: ${citaData['tipocita']}',
               style: TextStyle(fontSize: 16, color: Colors.white),
             ),
             SizedBox(height: 8),
             Text(
-              'Médico: Dra. Elisa Duarte',
+              'Médico: ${citaData['doctor_id_doctor']}',
               style: TextStyle(fontSize: 16, color: Colors.white),
             ),
             SizedBox(height: 8),
             Text(
-              'Dirección: Policlínico Hospital La Paz, Calle Bolívar Nro. 12 - Consultorio 2 Corr. 03 - Oftalmología',
+              'Dirección: ${citaData['direccion']}',
               style: TextStyle(fontSize: 16, color: Colors.white),
             ),
             Align(
               alignment: Alignment.bottomRight,
               child: TextButton(
-                onPressed: () => _confirmCancel(context),
+                onPressed: () => _confirmCancel(context, citaId),
                 child: Text(
                   'Cancelar Cita',
                   style: TextStyle(color: Colors.red),
@@ -76,7 +99,7 @@ class CancelarCita extends StatelessWidget {
     );
   }
 
-  void _confirmCancel(BuildContext context) {
+  void _confirmCancel(BuildContext context, String citaId) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -92,8 +115,7 @@ class CancelarCita extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                // Aquí podrías añadir la lógica para eliminar la cita de la base de datos o el servicio
-                print('Cita cancelada');
+                _cancelCita(citaId);
                 Navigator.of(context).pop(); // Cierra el diálogo
               },
               child: const Text('Sí'),
@@ -102,5 +124,10 @@ class CancelarCita extends StatelessWidget {
         );
       },
     );
+  }
+
+  void _cancelCita(String citaId) async {
+    await FirebaseFirestore.instance.collection('SolicitudCita').doc(citaId).delete();
+    print('Cita cancelada');
   }
 }
