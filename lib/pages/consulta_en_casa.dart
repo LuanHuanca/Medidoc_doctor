@@ -10,17 +10,17 @@ class ConsultaEnCasa extends StatefulWidget {
 
 class _ConsultaEnCasaState extends State<ConsultaEnCasa> {
   final List<Map<String, dynamic>> _allUsers = [
-    {"id": 1, "nombre": "Pedro", "genero": "masculino"},
-    {"id": 2, "nombre": "Juan", "genero": "masculino"},
-    {"id": 3, "nombre": "Jose", "genero": "masculino"},
-    {"id": 4, "nombre": "Maria", "genero": "femenino"},
-    {"id": 5, "nombre": "Anahi", "genero": "femenino"},
-    {"id": 6, "nombre": "Ana", "genero": "femenino"},
-    {"id": 7, "nombre": "Joaquin", "genero": "masculino"},
-    {"id": 8, "nombre": "Alvaro", "genero": "masculino"},
-    {"id": 9, "nombre": "Max", "genero": "masculino"},
-    {"id": 10, "nombre": "Camila", "genero": "femenino"},
-    {"id": 11, "nombre": "Jaime", "genero": "masculino"},
+    {"id": "yLXmGYygxi99CSB2XQHR", "nombre": "Pedro", "genero": "masculino"},
+    {"id": "2", "nombre": "Juan", "genero": "masculino"},
+    {"id": "3", "nombre": "Jose", "genero": "masculino"},
+    {"id": "4", "nombre": "Maria", "genero": "femenino"},
+    {"id": "5", "nombre": "Anahi", "genero": "femenino"},
+    {"id": "6", "nombre": "Ana", "genero": "femenino"},
+    {"id": "7", "nombre": "Joaquin", "genero": "masculino"},
+    {"id": "8", "nombre": "Alvaro", "genero": "masculino"},
+    {"id": "9", "nombre": "Max", "genero": "masculino"},
+    {"id": "10", "nombre": "Camila", "genero": "femenino"},
+    {"id": "11", "nombre": "Jaime", "genero": "masculino"},
   ];
 
   List<Map<String, dynamic>> _foundUsers = [];
@@ -97,8 +97,9 @@ class _ConsultaEnCasaState extends State<ConsultaEnCasa> {
                   onPressed: () {
                     if (name.isNotEmpty) {
                       setState(() {
+                        String newId = (_allUsers.length + 1).toString();
                         _allUsers.add({
-                          "id": _allUsers.length + 1,
+                          "id": newId,
                           "nombre": name,
                           "genero": gender
                         });
