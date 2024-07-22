@@ -36,10 +36,12 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Future<void> openInGoogleMaps() async {
     try {
-      // Obtiene la latitud y longitud del primer paciente
-      QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('Paciente').limit(1).get();
-      if (snapshot.docs.isNotEmpty) {
-        var paciente = snapshot.docs.first.data() as Map<String, dynamic>;
+      String pacienteId = widget.user['id'];
+
+      DocumentSnapshot pacienteSnapshot = await FirebaseFirestore.instance.collection('Paciente').doc(pacienteId).get();
+      
+      if (pacienteSnapshot.exists) {
+        var paciente = pacienteSnapshot.data() as Map<String, dynamic>;
         double latitude = paciente['latitude'];
         double longitude = paciente['longitude'];
 
@@ -57,7 +59,7 @@ class _ChatScreenState extends State<ChatScreen> {
         }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('No se encontró ningún paciente.')),
+          SnackBar(content: Text('No se encontró ningún paciente con ese ID.')),
         );
       }
     } catch (e) {
@@ -79,7 +81,7 @@ class _ChatScreenState extends State<ChatScreen> {
         actions: [
           IconButton(
             icon: Image.asset(
-              'assets/icons/mapa.png', // Reemplaza con la ruta de tu imagen
+              'assets/icons/mapa.png', 
               width: 40,
               height: 40,
             ),
