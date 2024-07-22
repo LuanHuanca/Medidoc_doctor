@@ -1,79 +1,101 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'navBar.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'navBar.dart';
 
 class SOSSplashScreen extends StatefulWidget {
-  const SOSSplashScreen({super.key});
+  const SOSSplashScreen({Key? key}) : super(key: key);
 
   @override
   State<SOSSplashScreen> createState() => _SOSSplashScreenState();
 }
 
 class _SOSSplashScreenState extends State<SOSSplashScreen> {
+  late Stream<QuerySnapshot> _sosStream;
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchSOSData(); // Cargar los datos al inicio
+  }
+
+  void _fetchSOSData() {
+    setState(() {
+      _isLoading = true; // Mostrar el CircularProgressIndicator
+    });
+
+    FirebaseFirestore.instance
+        .collection('SOS')
+        .orderBy('timestamp', descending: true)
+        .get()
+        .then((querySnapshot) {
+      setState(() {
+        _sosStream =
+            Stream.value(querySnapshot); // Convertir el resultado en un Stream
+        _isLoading = false; // Ocultar el CircularProgressIndicator
+      });
+    }).catchError((error) {
+      setState(() {
+        _isLoading =
+            false; // Manejar errores y ocultar el CircularProgressIndicator
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error al cargar los datos: $error'),
+        ),
+      );
+    });
+  }
+
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
-    
+
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
+      throw 'Location services are disabled.';
     }
 
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.deniedForever) {
-        return Future.error(
-            'Location permissions are permanently denied, we cannot request permissions.');
-      } 
+        throw 'Location permissions are permanently denied, we cannot request permissions.';
+      }
 
       if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
+        throw 'Location permissions are denied';
       }
     }
 
     return await Geolocator.getCurrentPosition();
   }
 
-  Future<void> openInGoogleMaps() async {
+  Future<void> openInGoogleMaps(double latitude, double longitude) async {
     try {
-      Position position = await _determinePosition();
-      double latitude = position.latitude;
-      double longitude = position.longitude;
-      String googleMapsUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+      String googleMapsUrl =
+          'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
 
       Uri uri = Uri.parse(googleMapsUrl);
-      
+
       try {
-        await launchUrl(uri, mode: LaunchMode.externalNonBrowserApplication);
+        await launch(uri.toString(), forceSafariVC: false, forceWebView: false);
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Could not open the map. Please ensure you have a web browser installed.')),
+          SnackBar(
+            content: Text(
+                'Could not open the map. Please ensure you have a web browser installed.'),
+          ),
         );
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $e')),
+        SnackBar(
+          content: Text('Error: $e'),
+        ),
       );
-    }
-  }
-
-  void _sendSOS(BuildContext context) async {
-    try {
-      Position position = await _determinePosition();
-      await FirebaseFirestore.instance.collection('SOS').add({
-        'sos_signal': 1,
-        'timestamp': FieldValue.serverTimestamp(),
-        'latitude': position.latitude,
-        'longitude': position.longitude,
-      });
-      _showSuccessDialog(context);
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Error al enviar SOS: $e'),
-      ));
     }
   }
 
@@ -82,7 +104,8 @@ class _SOSSplashScreenState extends State<SOSSplashScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           title: Center(child: Text('Éxito')),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -105,6 +128,14 @@ class _SOSSplashScreenState extends State<SOSSplashScreen> {
         );
       },
     );
+  }
+
+  void _refreshList() {
+    setState(() {
+      _isLoading = true; // Mostrar el CircularProgressIndicator
+    });
+
+    _fetchSOSData(); // Llamar a la función para actualizar los datos
   }
 
   @override
@@ -130,33 +161,78 @@ class _SOSSplashScreenState extends State<SOSSplashScreen> {
       drawer: const NavbarOptions(),
       body: Container(
         color: Colors.red,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                'SOS',
-                style: TextStyle(
-                  fontSize: 72,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'SOS Pendientes',
+                  style: TextStyle(
+                    fontSize: 32,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.refresh),
                   color: Colors.white,
-                  fontWeight: FontWeight.bold,
+                  onPressed: () => _refreshList(),
                 ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            Expanded(
+              child: Stack(
+                children: [
+                  _isLoading
+                      ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : StreamBuilder<QuerySnapshot>(
+                          stream: _sosStream,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError) {
+                              return Center(
+                                  child: Text('Error: ${snapshot.error}'));
+                            }
+
+                            if (!snapshot.hasData ||
+                                snapshot.data!.docs.isEmpty) {
+                              return Center(
+                                  child: Text('No hay solicitudes pendientes'));
+                            }
+
+                            return ListView.builder(
+                              itemCount: snapshot.data!.docs.length,
+                              itemBuilder: (context, index) {
+                                var sos = snapshot.data!.docs[index];
+                                double latitude = sos['latitude'];
+                                double longitude = sos['longitude'];
+
+                                return Card(
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 10),
+                                  child: ListTile(
+                                    title: Text('Solicitud ${index + 1}'),
+                                    subtitle: Text(
+                                        'Ubicación: $latitude, $longitude'),
+                                    trailing: ElevatedButton(
+                                      onPressed: () =>
+                                          openInGoogleMaps(latitude, longitude),
+                                      child: Text('Acceder a la Ubicación'),
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                ],
               ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () => _sendSOS(context),
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.red,
-                  backgroundColor: Colors.white,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                  textStyle: const TextStyle(
-                      fontSize: 24, fontWeight: FontWeight.bold),
-                ),
-                child: const Text('Enviar SOS'),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
