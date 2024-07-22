@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ChatScreen extends StatefulWidget {
   final Map<String, dynamic> user;
@@ -32,6 +34,39 @@ class _ChatScreenState extends State<ChatScreen> {
     });
   }
 
+  Future<void> openInGoogleMaps() async {
+    try {
+      // Obtiene la latitud y longitud del primer paciente
+      QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('Paciente').limit(1).get();
+      if (snapshot.docs.isNotEmpty) {
+        var paciente = snapshot.docs.first.data() as Map<String, dynamic>;
+        double latitude = paciente['latitude'];
+        double longitude = paciente['longitude'];
+
+        String googleMapsUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+        Uri uri = Uri.parse(googleMapsUrl);
+
+        try {
+          await launchUrl(uri, mode: LaunchMode.externalNonBrowserApplication);
+        } catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+                content: Text(
+                    'No se pudo abrir el mapa. Asegúrate de tener un navegador web instalado.')),
+          );
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('No se encontró ningún paciente.')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +76,17 @@ class _ChatScreenState extends State<ChatScreen> {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Color(0xFF02457A),
+        actions: [
+          IconButton(
+            icon: Image.asset(
+              'assets/icons/mapa.png', // Reemplaza con la ruta de tu imagen
+              width: 40,
+              height: 40,
+            ),
+            onPressed: () => openInGoogleMaps(),
+            color: Colors.white,
+          )
+        ],
       ),
       body: Column(
         children: [
